@@ -108,6 +108,12 @@ public:
 };
 
 // -------- FUNCIONES EXTRAS --------
+void agregarTiempo(int &tiempo, int extra){ 
+    tiempo += extra; 
+    if(tiempo > 60) {
+        tiempo = 60; 
+    }
+}
 
 void buscarCliente(vector<Pedido> pedidos) {
     string nombre;
