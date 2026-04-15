@@ -1,2 +1,3 @@
 - Cumple con la ejecucion del código.
 - Cumple con el juego del Ahorcado en su totalidad.
+- Ejercicio de depuracion realizado correctamente.
