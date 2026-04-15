@@ -1,0 +1,246 @@
+Proceso SistemaRestauranteYAhorcado 
+ 
+Definir stockIngredientes Como Entero 
+stockIngredientes <- 10 
+ 
+Definir partidasGanadas, partidasPerdidas Como Entero 
+partidasGanadas <- 0 
+partidasPerdidas <- 0 
+ 
+Dimension codigo[100], tiempoPreparacion[100], demanda[100] 
+Dimension nombre[100], categoria[100] 
+Dimension costo[100], precio[100] 
+Definir totalPlatos Como Entero 
+totalPlatos <- 0 
+ 
+Dimension clientePedido[100], mesaPedido[100], prioridadPedido[100] 
+Dimension subtotalPedido[100], totalPedido[100] 
+Definir totalPedidos Como Entero 
+totalPedidos <- 0 
+ 
+Definir op Como Entero 
+ 
+Repetir 
+ 
+Escribir "1. Registrar Plato" 
+Escribir "2. Crear Pedido" 
+Escribir "3. Buscar Cliente" 
+Escribir "4. Ordenar por Demanda" 
+Escribir "5. Ordenar por Tiempo" 
+Escribir "6. Jugar Ahorcado" 
+Escribir "0. Salir" 
+Leer op 
+ 
+Segun op Hacer 
+  
+1: 
+totalPlatos <- totalPlatos + 1 
+    
+Escribir "Codigo: " 
+Leer codigo[totalPlatos] 
+    
+Escribir "Nombre: " 
+Leer nombre[totalPlatos] 
+    
+Escribir "Categoria: " 
+Leer categoria[totalPlatos]    
+ Escribir "Costo: " 
+ Leer costo[totalPlatos] 
+    
+ Escribir "Precio: " 
+ Leer precio[totalPlatos] 
+    
+ Escribir "Tiempo preparacion: " 
+ Leer tiempoPreparacion[totalPlatos] 
+    
+ demanda[totalPlatos] <- 0 
+    
+2: 
+ totalPedidos <- totalPedidos + 1 
+    
+ Escribir "Cliente: " 
+ Leer clientePedido[totalPedidos] 
+    
+ Escribir "Mesa: " 
+ Leer mesaPedido[totalPedidos] 
+    
+ Escribir "Prioridad (1-3): " 
+ Leer prioridadPedido[totalPedidos] 
+    
+ subtotalPedido[totalPedidos] <- 0 
+    
+ Repetir 
+    
+ Para i <- 1 Hasta totalPlatos 
+ Escribir i,". ",nombre[i]," $",precio[i] 
+ FinPara 
+     
+ Escribir "Seleccione (-1 salir): " 
+ Leer op2 
+     
+ Si op2 > 0 Y op2 <= totalPlatos Entonces 
+ subtotalPedido[totalPedidos] <- subtotalPedido[totalPedidos] + precio[op2] 
+ demanda[op2] <- demanda[op2] + 1 
+  FinSi 
+     
+ Hasta Que op2 = -1 
+    
+ descuento <- subtotalPedido[totalPedidos] * 0.1 
+    
+ Si prioridadPedido[totalPedidos] = 3 Entonces 
+ recargo <- subtotalPedido[totalPedidos] * 0.05 
+  SiNo 
+ recargo <- 0 
+  FinSi 
+    
+ iva <- subtotalPedido[totalPedidos] * 0.12 
+    
+ totalPedido[totalPedidos] <- subtotalPedido[totalPedidos] - descuento + recargo + iva 
+    
+ Escribir "Subtotal: $",subtotalPedido[totalPedidos] 
+ Escribir "Total: $",totalPedido[totalPedidos] 
+    
+ stockIngredientes <- stockIngredientes - 1 
+    
+ Si stockIngredientes <= 2 Entonces 
+ Escribir "ALERTA: Poco stock" 
+  FinSi 
+    
+ 3: 
+ Definir buscar Como Cadena 
+ Escribir "Buscar cliente: " 
+ Leer buscar 
+    
+ Para i <- 1 Hasta totalPedidos 
+ Si clientePedido[i] = buscar Entonces 
+ Escribir "Cliente: ",clientePedido[i] 
+ Escribir "Subtotal: $",subtotalPedido[i] 
+ Escribir "Total: $",totalPedido[i] 
+    FinSi 
+   FinPara 
+    
+ 4: 
+ Para i <- 1 Hasta totalPlatos-1 
+ Para j <- i+1 Hasta totalPlatos 
+ Si demanda[i] < demanda[j] Entonces 
+       
+ temp <- demanda[i] 
+ demanda[i] <- demanda[j] 
+ demanda[j] <- temp 
+       
+ temp2 <- nombre[i] 
+ nombre[i] <- nombre[j] 
+ nombre[j] <- temp2 
+       
+     FinSi 
+    FinPara 
+   FinPara 
+    
+ Escribir "Ordenado por demanda"   
+ 5: 
+ Para i <- 1 Hasta totalPlatos-1 
+ Para j <- i+1 Hasta totalPlatos 
+ Si tiempoPreparacion[i] > tiempoPreparacion[j] Entonces 
+       
+ temp <- tiempoPreparacion[i] 
+ tiempoPreparacion[i] <- tiempoPreparacion[j] 
+ tiempoPreparacion[j] <- temp 
+       
+ temp2 <- nombre[i] 
+ nombre[i] <- nombre[j] 
+ nombre[j] <- temp2 
+       
+     FinSi 
+    FinPara 
+   FinPara 
+    
+ Escribir "Ordenado por tiempo" 
+    
+ 6: 
+ Definir opcionJuego Como Entero 
+    
+ Repetir 
+    
+ Escribir "===== AHORCADO =====" 
+ Escribir "1. Jugar 1 vs 1" 
+ Escribir "2. Jugar contra CPU" 
+ Escribir "3. Ver resultados" 
+ Escribir "4. Instrucciones" 
+ Escribir "5. Volver" 
+ Leer opcionJuego    
+ Segun opcionJuego Hacer 
+     
+ 1: 
+ Escribir "Jugador 1 ingrese la palabra:" 
+ Leer palabra 
+       
+ progreso <- "" 
+ Para i <- 1 Hasta Longitud(palabra) 
+ progreso <- progreso + "_" 
+   FinPara 
+       
+ intentos <- 6 
+       
+ Repetir 
+       
+Escribir "Palabra: ",progreso 
+ Escribir "Intentos restantes: ",intentos 
+        
+ Escribir "Ingrese una letra:" 
+ Leer letra 
+        
+ acierto <- Falso 
+        
+ Para i <- 1 Hasta Longitud(palabra) 
+ Si Subcadena(palabra,i,i) = letra Entonces 
+ progreso <- progreso 
+ acierto <- Verdadero 
+    FinSi 
+   FinPara 
+        
+ Si acierto = Falso Entonces 
+ intentos <- intentos - 1 
+    FinSi 
+        
+ Hasta Que intentos = 0 O progreso = palabra 
+       
+ Si progreso = palabra Entonces 
+ Escribir "Ganaste! La palabra era: ",palabra 
+ partidasGanadas <- partidasGanadas + 1 
+    SiNo 
+ Escribir "Perdiste! La palabra era: ",palabra 
+ partidasPerdidas <- partidasPerdidas + 1 
+    FinSi 
+       
+ 2: 
+ Escribir "Seleccione dificultad" 
+ Escribir "1 Facil" 
+ Escribir "2 Medio" 
+ Escribir "3 Dificil" 
+ Leer dificultad 
+       
+ Segun dificultad Hacer 
+ 1: palabra <- "pizza" 
+ 2: palabra <- "encebollado" 
+ 3: palabra <- "yahuarlocro" 
+      FinSegun 
+       
+ 3: 
+ Escribir "Ganadas: ",partidasGanadas 
+ Escribir "Perdidas: ",partidasPerdidas 
+       
+ 4: 
+ Escribir "Adivina la palabra letra por letra" 
+ Escribir "Tienes 6 intentos" 
+ Escribir "Solo puedes ingresar letras" 
+ Escribir "No repetir letras" 
+       
+    FinSegun 
+     
+ Hasta Que opcionJuego = 5 
+    
+ FinSegun 
+ 
+Hasta Que op = 0 
+ 
+FinProceso 
